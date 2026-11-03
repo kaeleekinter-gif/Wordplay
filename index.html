@@ -4,731 +4,720 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wordplay</title>
+<title>Doodle Guess</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
 
 :root {
-  --cream: #FAF8F3;
+  --bg: #FAF8F4;
   --white: #FFFFFF;
-  --blue: #DCEAF3;
-  --blue-dark: #66869D;
-  --pink: #F2DDE3;
-  --pink-dark: #A96F83;
-  --yellow: #F4EBCB;
   --ink: #343B40;
-  --muted: #899096;
+  --muted: #92999D;
+  --blue: #DDEBF3;
+  --blue-dark: #68879C;
+  --pink: #F3E1E6;
+  --pink-dark: #A86F83;
   --line: #EAE7E0;
+  --green: #E1EDE2;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--cream);
+  background: var(--bg);
   color: var(--ink);
   font-family: 'DM Sans', sans-serif;
   min-height: 100vh;
 }
 
 button, input { font: inherit; }
-
 button { cursor: pointer; }
 
 .screen {
   display: none;
-  width: 100%;
   min-height: 100vh;
-  padding: 28px 20px 50px;
+  padding: 24px 18px 45px;
 }
-
 .screen.active { display: block; }
 
 .container {
   max-width: 850px;
-  margin: 0 auto;
+  margin: auto;
 }
 
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 65px;
+  margin-bottom: 55px;
 }
 
 .logo {
+  font-size: 20px;
   font-weight: 800;
-  font-size: 19px;
   letter-spacing: -1px;
 }
-
 .logo span { color: var(--blue-dark); }
 
-.small-label {
-  color: var(--muted);
-  font-size: 12px;
+.tag {
+  font-size: 11px;
   letter-spacing: 1.5px;
-  text-transform: uppercase;
+  color: var(--muted);
   font-weight: 700;
 }
 
-.home-content {
-  max-width: 570px;
+.home {
+  max-width: 540px;
   margin: 0 auto;
   text-align: center;
 }
 
+.art {
+  width: 115px;
+  height: 115px;
+  border-radius: 32px;
+  background: var(--blue);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 25px;
+  transform: rotate(-5deg);
+}
+
+.art svg { width: 66px; height: 66px; }
+
 .eyebrow {
   display: inline-block;
-  background: var(--blue);
-  color: #57758A;
+  background: var(--pink);
+  color: var(--pink-dark);
   border-radius: 30px;
   padding: 8px 14px;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 800;
   letter-spacing: 1px;
-  margin-bottom: 24px;
+  margin-bottom: 17px;
 }
 
 h1 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(52px, 10vw, 82px);
+  font-size: clamp(48px, 9vw, 72px);
   line-height: 1;
-  letter-spacing: -3px;
+  letter-spacing: -2px;
   margin: 0 0 18px;
-  font-weight: 700;
 }
 
 .subtitle {
   color: var(--muted);
-  line-height: 1.7;
   font-size: 15px;
-  max-width: 390px;
-  margin: 0 auto 32px;
+  line-height: 1.7;
+  max-width: 370px;
+  margin: 0 auto 30px;
 }
 
-.letter-decoration {
-  width: 100px;
-  height: 100px;
-  border-radius: 28px;
-  background: var(--pink);
-  color: var(--pink-dark);
-  display: grid;
-  place-items: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 55px;
-  margin: 0 auto 28px;
-  transform: rotate(-5deg);
-}
-
-.primary-btn {
-  border: 0;
+.primary {
   background: var(--blue-dark);
   color: white;
-  padding: 16px 42px;
-  border-radius: 14px;
+  border: 0;
+  border-radius: 13px;
+  padding: 15px 35px;
   font-weight: 800;
-  font-size: 14px;
   letter-spacing: 1px;
-  transition: .2s;
-  box-shadow: 0 5px 0 #526F83;
+  box-shadow: 0 4px 0 #506F83;
+  transition: .15s;
 }
-
-.primary-btn:hover { transform: translateY(-2px); }
-.primary-btn:active {
+.primary:hover { transform: translateY(-2px); }
+.primary:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 0 #526F83;
+  box-shadow: 0 2px 0 #506F83;
 }
 
-.secondary-btn {
-  border: 1px solid var(--line);
+.secondary {
   background: white;
+  border: 1px solid var(--line);
   color: var(--ink);
-  padding: 13px 20px;
   border-radius: 12px;
+  padding: 13px 20px;
   font-weight: 700;
 }
 
-.home-cards {
+.how {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+  max-width: 600px;
   margin: 65px auto 0;
-  max-width: 620px;
 }
 
-.info-card {
+.how-card {
   background: white;
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 18px 10px;
+  padding: 18px 8px;
 }
-
-.info-card strong {
+.how-card strong {
   display: block;
-  font-size: 20px;
   margin-bottom: 5px;
+  font-size: 14px;
 }
-
-.info-card span {
+.how-card span {
   color: var(--muted);
   font-size: 12px;
 }
 
-.best-score {
-  margin-top: 24px;
-  color: var(--muted);
-  font-size: 13px;
-}
+/* GAME */
 
-.best-score strong { color: var(--blue-dark); }
-
-/* GAME SCREEN */
-
-.game-header {
+.game-top {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
-  gap: 12px;
+  align-items: center;
+  margin-bottom: 25px;
 }
 
-.back-btn {
+.back {
+  background: none;
   border: 0;
-  background: transparent;
   color: var(--muted);
   font-weight: 700;
   padding: 8px 0;
 }
 
-.round-label {
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.game-title {
+.game-heading {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 34px;
+  font-size: 32px;
   margin: 0 0 7px;
 }
 
-.game-description {
+.game-subtitle {
   color: var(--muted);
   font-size: 14px;
-  margin: 0 0 25px;
+  margin: 0 0 23px;
 }
 
-.round-panel {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 22px;
-}
-
-.letter-panel, .timer-panel {
-  border-radius: 18px;
-  padding: 20px;
-  text-align: center;
-}
-
-.letter-panel { background: var(--pink); }
-.timer-panel { background: var(--blue); }
-
-.panel-label {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  font-weight: 800;
-  color: #777D80;
-}
-
-.big-letter {
-  display: block;
-  font-family: 'Playfair Display', serif;
-  font-size: 54px;
-  color: var(--pink-dark);
-  line-height: 1.2;
-}
-
-.timer {
-  display: block;
-  font-size: 35px;
-  font-weight: 800;
-  color: var(--blue-dark);
-  line-height: 1.5;
-}
-
-.timer.warning { color: #B36D65; }
-
-.progress-line {
-  height: 5px;
-  background: #EAE7E0;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-bottom: 22px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--blue-dark);
-  width: 0%;
-  transition: width .2s;
-}
-
-.categories-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.category-card {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  padding: 15px;
-}
-
-.category-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.category-number {
-  color: #B0A9A0;
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.category-name {
-  font-size: 13px;
-  font-weight: 700;
-  margin-top: 4px;
-}
-
-.answer-input {
-  width: 100%;
-  border: 1px solid var(--line);
-  background: #FCFBF8;
-  padding: 12px;
-  border-radius: 10px;
-  outline: none;
-  color: var(--ink);
-  font-size: 14px;
-}
-
-.answer-input:focus {
-  border-color: #A8C3D5;
-  background: white;
-}
-
-.answer-input::placeholder { color: #B9B8B3; }
-
-.answer-input.invalid { border-color: #D89D9D; }
-
-.game-actions {
+.prompt-panel {
+  background: var(--pink);
+  border-radius: 17px;
+  padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin-top: 24px;
+  margin-bottom: 17px;
 }
 
-.filled-count {
+.prompt-label {
+  color: var(--pink-dark);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 5px;
+}
+
+.prompt-word {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 27px;
+  color: #755360;
+}
+
+.timer {
+  background: white;
+  border-radius: 12px;
+  padding: 11px 15px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  min-width: 78px;
+  text-align: center;
+}
+.timer.warning { color: #B56F65; }
+
+.canvas-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 13px;
+  box-shadow: 0 4px 15px rgba(50,50,50,.025);
+}
+
+.canvas-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tool-group {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.tool {
+  border: 1px solid var(--line);
+  background: #FCFBF9;
+  color: var(--ink);
+  border-radius: 9px;
+  padding: 9px 11px;
   font-size: 12px;
+  font-weight: 700;
+}
+.tool.selected {
+  background: var(--blue);
+  border-color: #B8CFDC;
+  color: #496B82;
+}
+
+.color {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid white;
+  outline: 1px solid #DDD;
+  padding: 0;
+}
+.color.selected { outline: 2px solid var(--blue-dark); }
+
+#drawingCanvas {
+  display: block;
+  width: 100%;
+  height: 350px;
+  background: #FFFEFC;
+  border: 1px solid #F0EEE8;
+  border-radius: 12px;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.canvas-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 13px;
+}
+
+.canvas-hint {
+  font-size: 11px;
   color: var(--muted);
+}
+
+.guess-btn {
+  background: var(--blue-dark);
+  color: white;
+  border: 0;
+  border-radius: 11px;
+  padding: 13px 20px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+
+.status {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 16px;
+  min-height: 20px;
 }
 
 /* RESULTS */
 
-.results-content {
-  max-width: 650px;
-  margin: 55px auto;
+.result-content {
+  max-width: 570px;
+  margin: 65px auto;
   text-align: center;
 }
 
-.result-circle {
-  width: 130px;
-  height: 130px;
-  margin: 25px auto;
-  border-radius: 50%;
-  background: var(--blue);
-  display: grid;
-  place-items: center;
-  color: var(--blue-dark);
-}
-
-.result-circle strong {
-  font-family: 'Playfair Display', serif;
-  font-size: 54px;
-}
-
-.result-circle span {
-  font-size: 12px;
-  display: block;
-  margin-top: -30px;
-}
-
-.result-note {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 26px;
-}
-
-.result-list {
-  text-align: left;
-  display: grid;
-  gap: 9px;
+.result-box {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 20px;
   margin: 25px 0;
 }
 
-.result-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  background: white;
-  border: 1px solid var(--line);
-  padding: 13px 15px;
-  border-radius: 12px;
-  font-size: 13px;
-}
-
-.result-row small {
-  display: block;
+.ai-label {
   color: var(--muted);
-  margin-top: 4px;
-}
-
-.points {
+  font-size: 11px;
+  letter-spacing: 1.5px;
   font-weight: 800;
-  color: var(--blue-dark);
-  white-space: nowrap;
 }
-
-.result-buttons {
+.ai-guess {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 35px;
+  margin: 10px 0;
+}
+.verdict {
+  display: inline-block;
+  padding: 9px 15px;
+  border-radius: 30px;
+  background: var(--green);
+  color: #57745D;
+  font-size: 12px;
+  font-weight: 800;
+}
+.result-note {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 14px;
+}
+.result-actions {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 25px;
+  margin-top: 22px;
 }
 
-@media (max-width: 600px) {
-  .screen { padding: 20px 15px 35px; }
-  .topbar { margin-bottom: 48px; }
-  .categories-grid { grid-template-columns: 1fr; }
-  .home-cards { margin-top: 48px; }
-  .info-card span { font-size: 10px; }
-  .game-title { font-size: 29px; }
-  .category-card { padding: 13px; }
+@media(max-width: 560px) {
+  .topbar { margin-bottom: 42px; }
+  .how { margin-top: 45px; }
+  #drawingCanvas { height: 310px; }
+  .game-heading { font-size: 28px; }
+  .canvas-bottom { align-items: flex-start; flex-direction: column; }
+  .guess-btn { width: 100%; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- HOME SCREEN -->
-<section id="homeScreen" class="screen active">
+<!-- HOME -->
+<section class="screen active" id="home">
   <div class="container">
     <div class="topbar">
-      <div class="logo">word<span>play.</span></div>
-      <div class="small-label">A solo word game</div>
+      <div class="logo">doodle<span>guess.</span></div>
+      <div class="tag">DRAWING GAME</div>
     </div>
 
-    <div class="home-content">
-      <div class="letter-decoration">W</div>
-      <div class="eyebrow">THINK FAST. THINK DIFFERENT.</div>
-      <h1>Wordplay</h1>
+    <div class="home">
+      <div class="art">
+        <svg viewBox="0 0 100 100" fill="none">
+          <path d="M22 72 L68 26 Q77 17 84 24 Q91 31 82 40 L37 84 L18 89 Z"
+            fill="#F8F7F1" stroke="#68879C" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M22 72 L37 84" stroke="#A96F83" stroke-width="4"/>
+          <path d="M18 89 L37 84 L22 72 Z" fill="#E9C6D1"/>
+          <path d="M69 28 L82 41" stroke="#68879C" stroke-width="4"/>
+        </svg>
+      </div>
+
+      <div class="eyebrow">A LITTLE DRAWING CHALLENGE</div>
+      <h1>Doodle Guess</h1>
       <p class="subtitle">
-        One letter. Twelve categories. How many creative answers can you come up with?
+        Get a secret word, draw what you see in your head,
+        and see if AI can figure out your masterpiece.
       </p>
-      <button class="primary-btn" onclick="startGame()">PLAY NOW</button>
-
-      <div class="best-score">
-        Personal best: <strong id="homeBest">0 points</strong>
-      </div>
+      <button class="primary" onclick="startGame()">START DRAWING</button>
     </div>
 
-    <div class="home-cards">
-      <div class="info-card">
-        <strong>12</strong>
-        <span>Categories</span>
+    <div class="how">
+      <div class="how-card">
+        <strong>01 · Get a word</strong>
+        <span>Discover your secret prompt</span>
       </div>
-      <div class="info-card">
-        <strong>2:00</strong>
-        <span>Minutes</span>
+      <div class="how-card">
+        <strong>02 · Draw it</strong>
+        <span>Use your mouse or finger</span>
       </div>
-      <div class="info-card">
-        <strong>1</strong>
-        <span>Player</span>
+      <div class="how-card">
+        <strong>03 · Get guessed</strong>
+        <span>Let AI take a look</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- GAME SCREEN -->
-<section id="gameScreen" class="screen">
+<!-- DRAWING -->
+<section class="screen" id="game">
   <div class="container">
-    <div class="game-header">
-      <button class="back-btn" onclick="goHome()">← Home</button>
-      <div class="round-label">ROUND <span id="roundNumber">1</span></div>
+    <div class="game-top">
+      <button class="back" onclick="goHome()">← Home</button>
+      <div class="tag">YOUR TURN</div>
     </div>
 
-    <h2 class="game-title">Your categories</h2>
-    <p class="game-description">Think of an answer that starts with the letter below.</p>
+    <h2 class="game-heading">Time to draw!</h2>
+    <p class="game-subtitle">Draw your secret word. Don't write the word itself!</p>
 
-    <div class="round-panel">
-      <div class="letter-panel">
-        <span class="panel-label">YOUR LETTER</span>
-        <strong class="big-letter" id="gameLetter">S</strong>
+    <div class="prompt-panel">
+      <div>
+        <div class="prompt-label">YOUR SECRET WORD</div>
+        <div class="prompt-word" id="prompt">Carrot</div>
       </div>
-      <div class="timer-panel">
-        <span class="panel-label">TIME LEFT</span>
-        <strong class="timer" id="timer">2:00</strong>
-      </div>
+      <div class="timer" id="timer">1:00</div>
     </div>
 
-    <div class="progress-line">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-
-    <div class="categories-grid" id="categoriesGrid"></div>
-
-    <div class="game-actions">
-      <span class="filled-count" id="filledCount">0 of 12 completed</span>
-      <button class="primary-btn" onclick="submitGame()">SUBMIT</button>
-    </div>
-  </div>
-</section>
-
-<!-- RESULTS SCREEN -->
-<section id="resultsScreen" class="screen">
-  <div class="container">
-    <div class="topbar">
-      <div class="logo">word<span>play.</span></div>
-      <div class="small-label">ROUND COMPLETE</div>
-    </div>
-
-    <div class="results-content">
-      <div class="eyebrow">NICE WORK!</div>
-      <h2 class="game-title">Your results</h2>
-      <div class="result-circle">
-        <div>
-          <strong id="finalScore">0</strong>
-          <span>POINTS</span>
+    <div class="canvas-card">
+      <div class="canvas-toolbar">
+        <div class="tool-group">
+          <button class="tool selected" id="penBtn" onclick="setTool('pen')">Pen</button>
+          <button class="tool" id="eraserBtn" onclick="setTool('eraser')">Eraser</button>
+          <button class="tool" onclick="clearCanvas()">Clear</button>
+        </div>
+        <div class="tool-group">
+          <button class="color selected" style="background:#343B40" onclick="setColor('#343B40',this)"></button>
+          <button class="color" style="background:#68879C" onclick="setColor('#68879C',this)"></button>
+          <button class="color" style="background:#C8879D" onclick="setColor('#C8879D',this)"></button>
+          <button class="color" style="background:#D7AE55" onclick="setColor('#D7AE55',this)"></button>
+          <button class="color" style="background:#83A88B" onclick="setColor('#83A88B',this)"></button>
         </div>
       </div>
+
+      <canvas id="drawingCanvas"></canvas>
+
+      <div class="canvas-bottom">
+        <span class="canvas-hint">Draw with your mouse or finger</span>
+        <button class="guess-btn" id="guessBtn" onclick="sendGuess()">LET AI GUESS →</button>
+      </div>
+    </div>
+
+    <div class="status" id="status"></div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="screen" id="results">
+  <div class="container">
+    <div class="topbar">
+      <div class="logo">doodle<span>guess.</span></div>
+      <div class="tag">AI RESULTS</div>
+    </div>
+
+    <div class="result-content">
+      <div class="eyebrow">THE BIG REVEAL</div>
+      <h2 class="game-heading">What did AI think?</h2>
+
+      <div class="result-box">
+        <div class="ai-label">AI GUESSED</div>
+        <div class="ai-guess" id="aiGuess">Carrot</div>
+        <div class="verdict" id="verdict">IT GOT IT!</div>
+      </div>
+
       <p class="result-note" id="resultNote"></p>
-      <div class="result-list" id="resultList"></div>
-      <div class="result-buttons">
-        <button class="primary-btn" onclick="startGame()">PLAY AGAIN</button>
-        <button class="secondary-btn" onclick="goHome()">HOME</button>
+
+      <div class="result-actions">
+        <button class="primary" onclick="startGame()">PLAY AGAIN</button>
+        <button class="secondary" onclick="goHome()">HOME</button>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-const letters = "ABCDEFGHIJKLMN OPRSTW".replaceAll(" ", "").split("");
-
-const categorySets = [
-  [
-    "Kids' TV show", "Animal", "Food", "Celebrity",
-    "Country", "Something at school", "Clothing item",
-    "Movie", "Something in a bedroom", "Store",
-    "Something you can drink", "Job"
-  ],
-  [
-    "Girl's name", "Boy's name", "Snack", "Sport",
-    "Something cold", "App", "Something in a car",
-    "Musical artist", "Color", "Something at the beach",
-    "Brand", "Something you collect"
-  ],
-  [
-    "Cartoon character", "Dessert", "City", "Pet",
-    "Something in a backpack", "TV show", "Hobby",
-    "Something you wear", "Restaurant", "Flower",
-    "Something that makes noise", "Gift"
-  ]
+const prompts = [
+  "Carrot", "Turtle", "Ice cream", "Umbrella", "Butterfly",
+  "Pizza", "Cactus", "Rainbow", "Octopus", "Strawberry",
+  "Airplane", "Dinosaur", "Sunflower", "Rocket", "Penguin",
+  "Hot air balloon", "Watermelon", "Elephant", "Snowman",
+  "Guitar", "Crown", "Pineapple", "Dolphin", "Castle"
 ];
 
-const commonAnswers = [
-  "spongebob", "snake", "sushi", "spain", "shoes",
-  "school", "sun", "sandwich", "strawberry", "soccer",
-  "pizza", "cat", "dog", "apple", "blue", "pink",
-  "taylor swift", "starbucks", "water", "milk",
-  "book", "phone", "shirt", "table", "chair"
-];
-
-let currentLetter = "";
-let round = 0;
-let timeLeft = 120;
+let secretWord = "";
+let seconds = 60;
 let timerInterval = null;
-let finished = false;
-let bestScore = Number(localStorage.getItem("wordplayBest") || 0);
+let drawing = false;
+let tool = "pen";
+let ink = "#343B40";
+let lastX = 0;
+let lastY = 0;
+let gameFinished = false;
+
+const canvas = document.getElementById("drawingCanvas");
+const ctx = canvas.getContext("2d");
 
 function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(screen => {
-    screen.classList.remove("active");
-  });
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-}
-
-function updateBest() {
-  document.getElementById("homeBest").textContent = bestScore + " points";
 }
 
 function goHome() {
   clearInterval(timerInterval);
-  showScreen("homeScreen");
-  updateBest();
+  showScreen("home");
+}
+
+function resizeCanvas() {
+  const oldImage = canvas.width ? canvas.toDataURL() : null;
+  const rect = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  if (oldImage) {
+    const image = new Image();
+    image.onload = () => {
+      ctx.drawImage(image, 0, 0, rect.width, rect.height);
+    };
+    image.src = oldImage;
+  }
 }
 
 function startGame() {
   clearInterval(timerInterval);
-  finished = false;
-  timeLeft = 120;
-  round++;
+  gameFinished = false;
+  seconds = 60;
 
-  currentLetter = letters[Math.floor(Math.random() * letters.length)];
-
-  document.getElementById("roundNumber").textContent = round;
-  document.getElementById("gameLetter").textContent = currentLetter;
-  document.getElementById("timer").textContent = "2:00";
+  secretWord = prompts[Math.floor(Math.random() * prompts.length)];
+  document.getElementById("prompt").textContent = secretWord;
+  document.getElementById("timer").textContent = "1:00";
   document.getElementById("timer").classList.remove("warning");
+  document.getElementById("status").textContent = "";
+  document.getElementById("guessBtn").disabled = false;
 
-  const categories = categorySets[(round - 1) % categorySets.length];
-  const grid = document.getElementById("categoriesGrid");
-  grid.innerHTML = "";
-
-  categories.forEach((category, index) => {
-    const card = document.createElement("div");
-    card.className = "category-card";
-    card.innerHTML = `
-      <div class="category-top">
-        <div>
-          <div class="category-number">CATEGORY ${String(index + 1).padStart(2, "0")}</div>
-          <div class="category-name">${category}</div>
-        </div>
-      </div>
-      <input class="answer-input" type="text"
-        maxlength="45"
-        placeholder="Your answer..."
-        autocomplete="off"
-        aria-label="${category}"
-        oninput="updateProgress()">
-    `;
-    grid.appendChild(card);
-  });
-
-  updateProgress();
-  showScreen("gameScreen");
+  showScreen("game");
+  setTimeout(() => {
+    resizeCanvas();
+    clearCanvas();
+  }, 50);
 
   timerInterval = setInterval(() => {
-    timeLeft--;
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-
+    seconds--;
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
     document.getElementById("timer").textContent =
-      minutes + ":" + String(seconds).padStart(2, "0");
+      m + ":" + String(s).padStart(2, "0");
 
-    if (timeLeft <= 20) {
+    if (seconds <= 10) {
       document.getElementById("timer").classList.add("warning");
     }
-
-    if (timeLeft <= 0) {
-      submitGame();
+    if (seconds <= 0) {
+      clearInterval(timerInterval);
+      sendGuess();
     }
   }, 1000);
 }
 
-function updateProgress() {
-  const inputs = [...document.querySelectorAll(".answer-input")];
-  const filled = inputs.filter(input => input.value.trim()).length;
-
-  document.getElementById("filledCount").textContent =
-    filled + " of 12 completed";
-
-  document.getElementById("progressFill").style.width =
-    (filled / 12 * 100) + "%";
+function getPosition(event) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  };
 }
 
-function submitGame() {
-  if (finished) return;
-  finished = true;
+canvas.addEventListener("pointerdown", event => {
+  if (gameFinished) return;
+  drawing = true;
+  canvas.setPointerCapture(event.pointerId);
+  const p = getPosition(event);
+  lastX = p.x;
+  lastY = p.y;
+
+  ctx.beginPath();
+  ctx.arc(lastX, lastY, tool === "eraser" ? 12 : 2, 0, Math.PI * 2);
+  ctx.fillStyle = tool === "eraser" ? "#FFFEFC" : ink;
+  ctx.fill();
+});
+
+canvas.addEventListener("pointermove", event => {
+  if (!drawing || gameFinished) return;
+  const p = getPosition(event);
+
+  ctx.beginPath();
+  ctx.moveTo(lastX, lastY);
+  ctx.lineTo(p.x, p.y);
+  ctx.strokeStyle = tool === "eraser" ? "#FFFEFC" : ink;
+  ctx.lineWidth = tool === "eraser" ? 24 : 4;
+  ctx.stroke();
+
+  lastX = p.x;
+  lastY = p.y;
+});
+
+function stopDrawing() { drawing = false; }
+canvas.addEventListener("pointerup", stopDrawing);
+canvas.addEventListener("pointercancel", stopDrawing);
+canvas.addEventListener("pointerleave", stopDrawing);
+
+function setTool(next) {
+  tool = next;
+  document.getElementById("penBtn").classList.toggle("selected", tool === "pen");
+  document.getElementById("eraserBtn").classList.toggle("selected", tool === "eraser");
+}
+
+function setColor(color, button) {
+  ink = color;
+  setTool("pen");
+  document.querySelectorAll(".color").forEach(b => b.classList.remove("selected"));
+  button.classList.add("selected");
+}
+
+function clearCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  ctx.clearRect(0, 0, rect.width, rect.height);
+}
+
+async function sendGuess() {
+  if (gameFinished) return;
+  gameFinished = true;
   clearInterval(timerInterval);
 
-  const inputs = [...document.querySelectorAll(".answer-input")];
-  const answers = inputs.map(input => input.value.trim());
-  const usedAnswers = new Set();
-  let score = 0;
+  const button = document.getElementById("guessBtn");
+  button.disabled = true;
 
-  const resultList = document.getElementById("resultList");
-  resultList.innerHTML = "";
+  document.getElementById("status").textContent = "AI is looking at your drawing...";
 
-  inputs.forEach((input, index) => {
-    const answer = answers[index];
-    const normalized = answer.toLowerCase().replace(/[^a-z0-9 ]/g, "").trim();
+  try {
+    const image = canvas.toDataURL("image/png");
 
-    let points = 0;
-    let reason = "No answer";
+    // Connect this endpoint to your AI vision backend.
+    const response = await fetch("/api/guess", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image })
+    });
 
-    if (answer && normalized[0] === currentLetter.toLowerCase()) {
-      if (usedAnswers.has(normalized)) {
-        reason = "Repeated answer";
-      } else {
-        usedAnswers.add(normalized);
+    if (!response.ok) throw new Error("AI service is not connected.");
 
-        if (commonAnswers.includes(normalized)) {
-          points = 1;
-          reason = "Common answer";
-        } else {
-          points = 2;
-          reason = "Original answer";
-        }
-      }
-    } else if (answer) {
-      reason = "Doesn't start with " + currentLetter;
-      input.classList.add("invalid");
-    }
+    const data = await response.json();
+    if (!data.guess) throw new Error("No guess was returned.");
 
-    score += points;
-
-    const row = document.createElement("div");
-    row.className = "result-row";
-
-    const left = document.createElement("div");
-    const answerName = document.createElement("strong");
-    answerName.textContent = answer || "—";
-    const detail = document.createElement("small");
-    detail.textContent = reason;
-    left.append(answerName, detail);
-
-    const right = document.createElement("span");
-    right.className = "points";
-    right.textContent = "+" + points;
-
-    row.append(left, right);
-    resultList.appendChild(row);
-  });
-
-  document.getElementById("finalScore").textContent = score;
-  document.getElementById("resultNote").textContent =
-    "You earned " + score + " points out of a possible 24. " +
-    "Less-common answers earn more points!";
-
-  if (score > bestScore) {
-    bestScore = score;
-    localStorage.setItem("wordplayBest", bestScore);
+    showResults(data.guess);
+  } catch (error) {
+    gameFinished = false;
+    button.disabled = false;
+    document.getElementById("status").textContent =
+      "AI isn't connected yet. Your drawing is ready, but the AI service needs to be set up.";
+    console.error(error);
   }
-
-  updateBest();
-  showScreen("resultsScreen");
 }
 
-updateBest();
+function showResults(guess) {
+  clearInterval(timerInterval);
+  const normalizedGuess = String(guess).toLowerCase();
+  const normalizedWord = secretWord.toLowerCase();
+
+  document.getElementById("aiGuess").textContent = guess;
+
+  const gotIt = normalizedGuess.includes(normalizedWord) ||
+    normalizedWord.includes(normalizedGuess);
+
+  document.getElementById("verdict").textContent =
+    gotIt ? "IT GOT IT!" : "NOT QUITE!";
+
+  document.getElementById("verdict").style.background =
+    gotIt ? "var(--green)" : "var(--pink)";
+
+  document.getElementById("verdict").style.color =
+    gotIt ? "#57745D" : "var(--pink-dark)";
+
+  document.getElementById("resultNote").textContent =
+    "Your secret word was " + secretWord + ". " +
+    (gotIt ? "Nice drawing!" : "Maybe the next drawing will fool AI less!");
+
+  showScreen("results");
+}
+
+window.addEventListener("resize", () => {
+  if (document.getElementById("game").classList.contains("active")) {
+    resizeCanvas();
+  }
+});
 </script>
+
 </body>
 </html>
