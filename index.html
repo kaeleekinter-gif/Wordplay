@@ -1,0 +1,734 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wordplay</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+  --cream: #FAF8F3;
+  --white: #FFFFFF;
+  --blue: #DCEAF3;
+  --blue-dark: #66869D;
+  --pink: #F2DDE3;
+  --pink-dark: #A96F83;
+  --yellow: #F4EBCB;
+  --ink: #343B40;
+  --muted: #899096;
+  --line: #EAE7E0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+button, input { font: inherit; }
+
+button { cursor: pointer; }
+
+.screen {
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  padding: 28px 20px 50px;
+}
+
+.screen.active { display: block; }
+
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 65px;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -1px;
+}
+
+.logo span { color: var(--blue-dark); }
+
+.small-label {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.home-content {
+  max-width: 570px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  background: var(--blue);
+  color: #57758A;
+  border-radius: 30px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(52px, 10vw, 82px);
+  line-height: 1;
+  letter-spacing: -3px;
+  margin: 0 0 18px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 15px;
+  max-width: 390px;
+  margin: 0 auto 32px;
+}
+
+.letter-decoration {
+  width: 100px;
+  height: 100px;
+  border-radius: 28px;
+  background: var(--pink);
+  color: var(--pink-dark);
+  display: grid;
+  place-items: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 55px;
+  margin: 0 auto 28px;
+  transform: rotate(-5deg);
+}
+
+.primary-btn {
+  border: 0;
+  background: var(--blue-dark);
+  color: white;
+  padding: 16px 42px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 1px;
+  transition: .2s;
+  box-shadow: 0 5px 0 #526F83;
+}
+
+.primary-btn:hover { transform: translateY(-2px); }
+.primary-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #526F83;
+}
+
+.secondary-btn {
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--ink);
+  padding: 13px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.home-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 65px auto 0;
+  max-width: 620px;
+}
+
+.info-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 10px;
+}
+
+.info-card strong {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.info-card span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.best-score {
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.best-score strong { color: var(--blue-dark); }
+
+/* GAME SCREEN */
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 12px;
+}
+
+.back-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 700;
+  padding: 8px 0;
+}
+
+.round-label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.game-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 34px;
+  margin: 0 0 7px;
+}
+
+.game-description {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 25px;
+}
+
+.round-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.letter-panel, .timer-panel {
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+}
+
+.letter-panel { background: var(--pink); }
+.timer-panel { background: var(--blue); }
+
+.panel-label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+  color: #777D80;
+}
+
+.big-letter {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 54px;
+  color: var(--pink-dark);
+  line-height: 1.2;
+}
+
+.timer {
+  display: block;
+  font-size: 35px;
+  font-weight: 800;
+  color: var(--blue-dark);
+  line-height: 1.5;
+}
+
+.timer.warning { color: #B36D65; }
+
+.progress-line {
+  height: 5px;
+  background: #EAE7E0;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--blue-dark);
+  width: 0%;
+  transition: width .2s;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.category-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.category-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.category-number {
+  color: #B0A9A0;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.category-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.answer-input {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #FCFBF8;
+  padding: 12px;
+  border-radius: 10px;
+  outline: none;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.answer-input:focus {
+  border-color: #A8C3D5;
+  background: white;
+}
+
+.answer-input::placeholder { color: #B9B8B3; }
+
+.answer-input.invalid { border-color: #D89D9D; }
+
+.game-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.filled-count {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* RESULTS */
+
+.results-content {
+  max-width: 650px;
+  margin: 55px auto;
+  text-align: center;
+}
+
+.result-circle {
+  width: 130px;
+  height: 130px;
+  margin: 25px auto;
+  border-radius: 50%;
+  background: var(--blue);
+  display: grid;
+  place-items: center;
+  color: var(--blue-dark);
+}
+
+.result-circle strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 54px;
+}
+
+.result-circle span {
+  font-size: 12px;
+  display: block;
+  margin-top: -30px;
+}
+
+.result-note {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 26px;
+}
+
+.result-list {
+  text-align: left;
+  display: grid;
+  gap: 9px;
+  margin: 25px 0;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  background: white;
+  border: 1px solid var(--line);
+  padding: 13px 15px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.result-row small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.points {
+  font-weight: 800;
+  color: var(--blue-dark);
+  white-space: nowrap;
+}
+
+.result-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+@media (max-width: 600px) {
+  .screen { padding: 20px 15px 35px; }
+  .topbar { margin-bottom: 48px; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .home-cards { margin-top: 48px; }
+  .info-card span { font-size: 10px; }
+  .game-title { font-size: 29px; }
+  .category-card { padding: 13px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME SCREEN -->
+<section id="homeScreen" class="screen active">
+  <div class="container">
+    <div class="topbar">
+      <div class="logo">word<span>play.</span></div>
+      <div class="small-label">A solo word game</div>
+    </div>
+
+    <div class="home-content">
+      <div class="letter-decoration">W</div>
+      <div class="eyebrow">THINK FAST. THINK DIFFERENT.</div>
+      <h1>Wordplay</h1>
+      <p class="subtitle">
+        One letter. Twelve categories. How many creative answers can you come up with?
+      </p>
+      <button class="primary-btn" onclick="startGame()">PLAY NOW</button>
+
+      <div class="best-score">
+        Personal best: <strong id="homeBest">0 points</strong>
+      </div>
+    </div>
+
+    <div class="home-cards">
+      <div class="info-card">
+        <strong>12</strong>
+        <span>Categories</span>
+      </div>
+      <div class="info-card">
+        <strong>2:00</strong>
+        <span>Minutes</span>
+      </div>
+      <div class="info-card">
+        <strong>1</strong>
+        <span>Player</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GAME SCREEN -->
+<section id="gameScreen" class="screen">
+  <div class="container">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← Home</button>
+      <div class="round-label">ROUND <span id="roundNumber">1</span></div>
+    </div>
+
+    <h2 class="game-title">Your categories</h2>
+    <p class="game-description">Think of an answer that starts with the letter below.</p>
+
+    <div class="round-panel">
+      <div class="letter-panel">
+        <span class="panel-label">YOUR LETTER</span>
+        <strong class="big-letter" id="gameLetter">S</strong>
+      </div>
+      <div class="timer-panel">
+        <span class="panel-label">TIME LEFT</span>
+        <strong class="timer" id="timer">2:00</strong>
+      </div>
+    </div>
+
+    <div class="progress-line">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="categories-grid" id="categoriesGrid"></div>
+
+    <div class="game-actions">
+      <span class="filled-count" id="filledCount">0 of 12 completed</span>
+      <button class="primary-btn" onclick="submitGame()">SUBMIT</button>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS SCREEN -->
+<section id="resultsScreen" class="screen">
+  <div class="container">
+    <div class="topbar">
+      <div class="logo">word<span>play.</span></div>
+      <div class="small-label">ROUND COMPLETE</div>
+    </div>
+
+    <div class="results-content">
+      <div class="eyebrow">NICE WORK!</div>
+      <h2 class="game-title">Your results</h2>
+      <div class="result-circle">
+        <div>
+          <strong id="finalScore">0</strong>
+          <span>POINTS</span>
+        </div>
+      </div>
+      <p class="result-note" id="resultNote"></p>
+      <div class="result-list" id="resultList"></div>
+      <div class="result-buttons">
+        <button class="primary-btn" onclick="startGame()">PLAY AGAIN</button>
+        <button class="secondary-btn" onclick="goHome()">HOME</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+const letters = "ABCDEFGHIJKLMN OPRSTW".replaceAll(" ", "").split("");
+
+const categorySets = [
+  [
+    "Kids' TV show", "Animal", "Food", "Celebrity",
+    "Country", "Something at school", "Clothing item",
+    "Movie", "Something in a bedroom", "Store",
+    "Something you can drink", "Job"
+  ],
+  [
+    "Girl's name", "Boy's name", "Snack", "Sport",
+    "Something cold", "App", "Something in a car",
+    "Musical artist", "Color", "Something at the beach",
+    "Brand", "Something you collect"
+  ],
+  [
+    "Cartoon character", "Dessert", "City", "Pet",
+    "Something in a backpack", "TV show", "Hobby",
+    "Something you wear", "Restaurant", "Flower",
+    "Something that makes noise", "Gift"
+  ]
+];
+
+const commonAnswers = [
+  "spongebob", "snake", "sushi", "spain", "shoes",
+  "school", "sun", "sandwich", "strawberry", "soccer",
+  "pizza", "cat", "dog", "apple", "blue", "pink",
+  "taylor swift", "starbucks", "water", "milk",
+  "book", "phone", "shirt", "table", "chair"
+];
+
+let currentLetter = "";
+let round = 0;
+let timeLeft = 120;
+let timerInterval = null;
+let finished = false;
+let bestScore = Number(localStorage.getItem("wordplayBest") || 0);
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+}
+
+function updateBest() {
+  document.getElementById("homeBest").textContent = bestScore + " points";
+}
+
+function goHome() {
+  clearInterval(timerInterval);
+  showScreen("homeScreen");
+  updateBest();
+}
+
+function startGame() {
+  clearInterval(timerInterval);
+  finished = false;
+  timeLeft = 120;
+  round++;
+
+  currentLetter = letters[Math.floor(Math.random() * letters.length)];
+
+  document.getElementById("roundNumber").textContent = round;
+  document.getElementById("gameLetter").textContent = currentLetter;
+  document.getElementById("timer").textContent = "2:00";
+  document.getElementById("timer").classList.remove("warning");
+
+  const categories = categorySets[(round - 1) % categorySets.length];
+  const grid = document.getElementById("categoriesGrid");
+  grid.innerHTML = "";
+
+  categories.forEach((category, index) => {
+    const card = document.createElement("div");
+    card.className = "category-card";
+    card.innerHTML = `
+      <div class="category-top">
+        <div>
+          <div class="category-number">CATEGORY ${String(index + 1).padStart(2, "0")}</div>
+          <div class="category-name">${category}</div>
+        </div>
+      </div>
+      <input class="answer-input" type="text"
+        maxlength="45"
+        placeholder="Your answer..."
+        autocomplete="off"
+        aria-label="${category}"
+        oninput="updateProgress()">
+    `;
+    grid.appendChild(card);
+  });
+
+  updateProgress();
+  showScreen("gameScreen");
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    document.getElementById("timer").textContent =
+      minutes + ":" + String(seconds).padStart(2, "0");
+
+    if (timeLeft <= 20) {
+      document.getElementById("timer").classList.add("warning");
+    }
+
+    if (timeLeft <= 0) {
+      submitGame();
+    }
+  }, 1000);
+}
+
+function updateProgress() {
+  const inputs = [...document.querySelectorAll(".answer-input")];
+  const filled = inputs.filter(input => input.value.trim()).length;
+
+  document.getElementById("filledCount").textContent =
+    filled + " of 12 completed";
+
+  document.getElementById("progressFill").style.width =
+    (filled / 12 * 100) + "%";
+}
+
+function submitGame() {
+  if (finished) return;
+  finished = true;
+  clearInterval(timerInterval);
+
+  const inputs = [...document.querySelectorAll(".answer-input")];
+  const answers = inputs.map(input => input.value.trim());
+  const usedAnswers = new Set();
+  let score = 0;
+
+  const resultList = document.getElementById("resultList");
+  resultList.innerHTML = "";
+
+  inputs.forEach((input, index) => {
+    const answer = answers[index];
+    const normalized = answer.toLowerCase().replace(/[^a-z0-9 ]/g, "").trim();
+
+    let points = 0;
+    let reason = "No answer";
+
+    if (answer && normalized[0] === currentLetter.toLowerCase()) {
+      if (usedAnswers.has(normalized)) {
+        reason = "Repeated answer";
+      } else {
+        usedAnswers.add(normalized);
+
+        if (commonAnswers.includes(normalized)) {
+          points = 1;
+          reason = "Common answer";
+        } else {
+          points = 2;
+          reason = "Original answer";
+        }
+      }
+    } else if (answer) {
+      reason = "Doesn't start with " + currentLetter;
+      input.classList.add("invalid");
+    }
+
+    score += points;
+
+    const row = document.createElement("div");
+    row.className = "result-row";
+
+    const left = document.createElement("div");
+    const answerName = document.createElement("strong");
+    answerName.textContent = answer || "—";
+    const detail = document.createElement("small");
+    detail.textContent = reason;
+    left.append(answerName, detail);
+
+    const right = document.createElement("span");
+    right.className = "points";
+    right.textContent = "+" + points;
+
+    row.append(left, right);
+    resultList.appendChild(row);
+  });
+
+  document.getElementById("finalScore").textContent = score;
+  document.getElementById("resultNote").textContent =
+    "You earned " + score + " points out of a possible 24. " +
+    "Less-common answers earn more points!";
+
+  if (score > bestScore) {
+    bestScore = score;
+    localStorage.setItem("wordplayBest", bestScore);
+  }
+
+  updateBest();
+  showScreen("resultsScreen");
+}
+
+updateBest();
+</script>
+</body>
+</html>
